@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>拖放</title>
+</head>
+<style>
+
+   .divblok { 
+        background-color: green;
+        width:80px;
+        height:80px;
+        position:absolute;
+        left:20px;
+        top:20px;
+        color: white;
+    }
+    .pull-left{
+    	float: left;
+    }
+</style>
+
+<body>
+     <div style="width:600px;height:400px;border:1px solid red;" ondragover="drag600pxoverFun(event)" ondrop= "dropFun(event)" > 
+	     <div style="width:200px;height: 400px; background-color: pink">
+		     	开关工具
+		 </div>
+		<div id="canvas" class="pull-left" style="background-color: yellow;width:200px;height: 380px;">
+	     	<!-- 画布 -->
+			<h1>666</h1>
+	     </div> 
+		 
+	</div> 
+	       	
+
+    
+
+    <script>
+    	
+       var dragdiv = document.querySelector('#dragdiv');
+
+       //克隆节点
+       var dragdivClone = document.getElementById("dragdiv");
+       dragdivClone = dragdivClone.cloneNode(true); 
+       // console.log(dragdivClone);
+       //插入节点
+       var element=document.getElementById("canvas");
+       element.appendChild(dragdivClone);
+       
+       var x, y;  //记录到点击时鼠标到移动框左边和上边的距离
+
+	    //dragstart   :开始拖动事件
+	    //dataTransfer:传输数据
+    	function dragstartFun(e){ 
+    		e.dataTransfer.effectAllowed = "all";
+    		e.dataTransfer.setData("text", '');
+    		x = e.offsetX || e.layerX;  
+    		y = e.offsetY || e.layerY;
+    		return true;
+    	}
+
+	    //放到何处 
+	    //ondragover：目标对象被源对象拖动着悬停在上方
+	   function dragoverFun(e){
+	   		e.preventDefault()|| e.stopPropagation();
+	   }
+
+	     //源对象拖动着在目标对象上方释放/松手，目标对象使用
+	     //拖动过程：拖动对象在拖动过程中获取X,Y值；
+	    function dropFun(e){ 
+	    	 dragdiv.style.left = (e.pageX - x) + 'px'; 
+	         dragdiv.style.top = (e.pageY - y) + 'px';
+	         e.preventDefault() || e.stopPropagation();  //取消，firefox中会触发网页跳转到查找setData中的内容
+	    }
+
+
+    </script>
+</body>
+
+</html>
